@@ -1,0 +1,157 @@
+<!-- SUCCESS TOAST -->
+@if (successMessage) {
+  <div class="fixed top-4 right-4 z-[60] animate-in fade-in slide-in-from-top-2 duration-300">
+    <div class="flex items-center gap-3 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg shadow-lg">
+      <svg class="h-5 w-5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+      <span class="text-sm font-medium">{{ successMessage }}</span>
+    </div>
+  </div>
+}
+
+<!-- PAGE HEADER -->
+<div class="space-y-6 pb-8">
+  <app-page-header
+    title="Parcelamentos"
+    description="Acompanhe e crie parcelamentos contínuos associados às suas fontes de despesa parcelada.">
+    <app-button (onClick)="openCreateModal()">Novo parcelamento</app-button>
+  </app-page-header>
+
+  <!-- LOADING -->
+  @if (isLoading()) {
+    <app-loading-state message="Carregando parcelamentos..."></app-loading-state>
+  }
+
+  <!-- ERROR -->
+  @else if (errorMessage) {
+    <app-card>
+      <div class="p-8 flex flex-col items-center text-center">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 mb-4">
+          <svg class="h-6 w-6 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5C2.57 17.333 3.532 19 5.072 19z" />
+          </svg>
+        </div>
+        <h3 class="text-base font-semibold text-text-primary">Erro ao carregar parcelamentos</h3>
+        <p class="mt-2 text-sm text-text-secondary max-w-sm">{{ errorMessage }}</p>
+        <div class="mt-6">
+          <app-button variant="secondary" (onClick)="loadData()">Tentar novamente</app-button>
+        </div>
+      </div>
+    </app-card>
+  }
+
+  <!-- CONTENT -->
+  @else {
+
+    <!-- EMPTY STATE -->
+    @if (installmentPlans.length === 0) {
+      <app-empty-state
+        title="Nenhum parcelamento cadastrado"
+        description="Crie seu primeiro parcelamento para gerenciar despesas a longo prazo de forma organizada.">
+        <app-button (onClick)="openCreateModal()">Criar primeiro parcelamento</app-button>
+      </app-empty-state>
+    }
+
+    <!-- TABLE -->
+    @else {
+      <app-table>
+        <tr thead>
+          <th scope="col" class="px-6 py-3 font-medium">Descrição</th>
+          <th scope="col" class="px-6 py-3 font-medium">Fonte de Despesa</th>
+          <th scope="col" class="px-6 py-3 font-medium">Valor Total</th>
+          <th scope="col" class="px-6 py-3 font-medium">Parcelas</th>
+          <th scope="col" class="px-6 py-3 font-medium">Valor da Parcela</th>
+          <th scope="col" class="px-6 py-3 font-medium">Data de Início</th>
+        </tr>
+        @for (plan of installmentPlans; track plan.id) {
+          <tr tbody class="hover:bg-slate-50/50 transition-colors">
+            <td class="whitespace-nowrap px-6 py-4 font-medium text-text-primary">
+              {{ plan.description }}
+            </td>
+            <td class="whitespace-nowrap px-6 py-4 text-text-secondary text-sm">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-medium">
+                {{ getExpenseSourceName(plan.expenseSourceId) }}
+              </span>
+            </td>
+            <td class="whitespace-nowrap px-6 py-4 text-text-primary text-sm font-medium">
+              {{ formatCurrency(plan.totalAmount) }}
+            </td>
+            <td class="whitespace-nowrap px-6 py-4 text-text-secondary text-sm">
+              {{ plan.totalInstallments }}x
+            </td>
+            <td class="whitespace-nowrap px-6 py-4 text-text-primary text-sm font-medium">
+              {{ formatCurrency(plan.installmentAmount) }}
+            </td>
+            <td class="whitespace-nowrap px-6 py-4 text-text-secondary text-sm">
+              {{ formatDate(plan.startDate) }}
+            </td>
+          </tr>
+        }
+      </app-table>
+    }
+  }
+</div>
+
+<!-- CREATE MODAL -->
+<app-modal [isOpen]="isFormModalOpen" title="Novo parcelamento" (close)="closeFormModal()">
+  <form [formGroup]="planForm" (ngSubmit)="savePlan()" class="space-y-6">
+
+    @if (formError) {
+      <div class="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+        <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        {{ formError }}
+      </div>
+    }
+
+    <app-input
+      formControlName="description"
+      label="Descrição da compra"
+      placeholder="Ex: Notebook novo, Viagem..."
+      [error]="descriptionError">
+    </app-input>
+
+    <app-select
+      formControlName="expenseSourceId"
+      label="Fonte de Despesa Parcelada"
+      [options]="expenseSourceOptions"
+      placeholder="Selecione a fonte vinculada"
+      [error]="expenseSourceIdError">
+    </app-select>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <app-input
+        formControlName="totalAmount"
+        label="Valor total (R$)"
+        type="number"
+        placeholder="0,00"
+        [error]="totalAmountError">
+      </app-input>
+
+      <app-input
+        formControlName="totalInstallments"
+        label="Quantidade de parcelas"
+        type="number"
+        placeholder="Ex: 12"
+        [error]="totalInstallmentsError">
+      </app-input>
+    </div>
+
+    <app-input
+      formControlName="startDate"
+      label="Data de início (1ª Parcela)"
+      type="date"
+      [error]="startDateError">
+    </app-input>
+
+  </form>
+
+  <div modal-actions class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+    <app-button variant="secondary" (onClick)="closeFormModal()">Cancelar</app-button>
+    <app-button [loading]="isSaving" (onClick)="savePlan()">
+      Criar parcelamento
+    </app-button>
+  </div>
+</app-modal>

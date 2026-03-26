@@ -1,0 +1,103 @@
+
+> controle-financeiro-frontend@0.0.0 build
+> ng build
+
+[33m❯[39m Building...
+[32m✔[39m Building...
+Application bundle generation failed. [1.074 seconds] - 2026-03-16T01:02:19.115Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:1:8:
+[37m      1 │ @import [32m[37m"tailwindcss";
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find template file './badge.html'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/ui/badge/badge.ts:6:15:
+[37m      6 │   templateUrl: [32m'./badge.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find template file './button.html'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/ui/button/button.ts:6:15:
+[37m      6 │   templateUrl: [32m'./button.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find template file './card.html'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/ui/card/card.ts:6:15:
+[37m      6 │   templateUrl: [32m'./card.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find template file './empty-state.html'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/ui/empty-state/empty-state.ts:6:15:
+[37m      6 │   templateUrl: [32m'./empty-state.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find template file './input.html'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/ui/input/input.ts:6:15:
+[37m      6 │   templateUrl: [32m'./input.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find template file './loading-state.html'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/ui/loading-state/loading-state.ts:6:15:
+[37m      6 │   templateUrl: [32m'./loading-state.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find template file './modal.html'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/ui/modal/modal.ts:6:15:
+[37m      6 │   templateUrl: [32m'./modal.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find template file './page-header.html'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/ui/page-header/page-header.ts:6:15:
+[37m      6 │   templateUrl: [32m'./page-header.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find template file './select.html'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/ui/select/select.ts:6:15:
+[37m      6 │   templateUrl: [32m'./select.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find template file './table.html'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/ui/table/table.ts:6:15:
+[37m      6 │   templateUrl: [32m'./table.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find template file './textarea.html'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/shared/ui/textarea/textarea.ts:6:15:
+[37m      6 │   templateUrl: [32m'./textarea.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m

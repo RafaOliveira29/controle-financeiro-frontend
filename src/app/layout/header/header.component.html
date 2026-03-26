@@ -1,0 +1,22 @@
+<header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8 shadow-sm relative z-10 w-full">
+  <div class="flex flex-1 items-center">
+    <!-- Breadcrumb or Title placeholder -->
+    <div class="hidden md:block">
+      <h2 class="text-sm font-medium text-slate-600">Sistema Financeiro Pessoal</h2>
+    </div>
+    
+    <!-- Mobile Menu Button -->
+    <button (click)="layoutService.toggleSidebar()" class="md:hidden p-2 -ml-2 text-slate-500 hover:bg-slate-100 rounded-md">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="flex items-center space-x-4">
+    <!-- User Avatar -->
+    <button class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-sm font-semibold text-indigo-700 hover:bg-indigo-200 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+      RS
+    </button>
+  </div>
+</header>

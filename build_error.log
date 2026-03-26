@@ -1,0 +1,117 @@
+
+> controle-financeiro-frontend@0.0.0 build
+> ng build
+
+[33m❯[39m Building...
+[32m✔[39m Building...
+Application bundle generation failed. [1.013 seconds] - 2026-03-16T00:43:54.259Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:1:8:
+[37m      1 │ @import [32m[37m"tailwindcss";
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:1:8:
+[37m      1 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './app.component.scss'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.ts:8:12:
+[37m      8 │   styleUrl: [32m'./app.component.scss'[37m,
+        ╵             [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './categories.component.scss'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/categories/categories.component.ts:7:12:
+[37m      7 │   styleUrl: [32m'./categories.component.scss'[37m,
+        ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './dashboard.component.scss'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/dashboard/dashboard.component.ts:7:12:
+[37m      7 │   styleUrl: [32m'./dashboard.component.scss'[37m,
+        ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './expense-sources.component.scss'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/expense-sources/expense-sources.component.ts:7:12:
+[37m      7 │   styleUrl: [32m'./expense-sources.component.scss'[37m,
+        ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './income-sources.component.scss'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/income-sources/income-sources.component.ts:7:12:
+[37m      7 │   styleUrl: [32m'./income-sources.component.scss'[37m,
+        ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './installment-plans.component.scss'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/installment-plans/installment-plans.component.ts:7:12:
+[37m      7 │   styleUrl: [32m'./installment-plans.component.scss'[37m,
+        ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './monthly-entries.component.scss'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/monthly-entries/monthly-entries.component.ts:7:12:
+[37m      7 │   styleUrl: [32m'./monthly-entries.component.scss'[37m,
+        ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './payments.component.scss'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/payments/payments.component.ts:7:12:
+[37m      7 │   styleUrl: [32m'./payments.component.scss'[37m,
+        ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './header.component.scss'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/layout/header/header.component.ts:8:12:
+[37m      8 │   styleUrl: [32m'./header.component.scss'[37m
+        ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './main-layout.component.scss'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/layout/main-layout/main-layout.component.ts:12:12:
+[37m      12 │   styleUrl: [32m'./main-layout.component.scss'[37m
+         ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG2008: Could not find stylesheet file './sidebar.component.scss'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/layout/sidebar/sidebar.component.ts:8:12:
+[37m      8 │   styleUrl: [32m'./sidebar.component.scss'[37m
+        ╵             [32m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2307: Cannot find module './app/app' or its corresponding type declarations.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/main.ts:3:20:
+[37m      3 │ import { App } from [32m'./app/app'[37m;
+        ╵                     [32m~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mCould not resolve "./app/app"[0m
+
+    src/main.ts:3:20:
+[37m      3 │ import { App } from [32m'./app/app'[37m;
+        ╵                     [32m~~~~~~~~~~~[0m
+
+[39m[22m

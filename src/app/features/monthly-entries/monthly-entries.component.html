@@ -1,0 +1,190 @@
+<!-- SUCCESS TOAST -->
+@if (successMessage) {
+  <div class="fixed top-4 right-4 z-[60] animate-in fade-in slide-in-from-top-2 duration-300">
+    <div class="flex items-center gap-3 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg shadow-lg">
+      <svg class="h-5 w-5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+      <span class="text-sm font-medium">{{ successMessage }}</span>
+    </div>
+  </div>
+}
+
+<!-- HEADER AND ACTIONS -->
+<div class="space-y-6 pb-8">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">Lançamentos Mensais</h2>
+      <p class="text-sm text-slate-500 mt-1">Visualize e gere o fluxo de caixa do seu mês com base nas suas fontes estruturadas.</p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <!-- Mês Seleção -->
+      <div class="relative">
+        <input 
+          type="month" 
+          [formControl]="monthControl"
+          class="block w-full rounded-lg border-slate-300 py-2 pl-3 pr-4 text-sm font-medium text-slate-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 hover:border-slate-400 transition-colors bg-white cursor-pointer"
+        />
+      </div>
+
+      <!-- Gerar Botão -->
+      <app-button 
+        (onClick)="generateMonth()" 
+        [loading]="isGenerating()" 
+        [disabled]="isGenerating() || isLoading() || !monthControl.value">
+        Gerar Lançamentos
+      </app-button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  @if (isLoading() && !isGenerating()) {
+    <app-loading-state message="Carregando lançamentos..."></app-loading-state>
+  }
+
+  <!-- ERROR -->
+  @else if (errorMessage) {
+    <app-card>
+      <div class="p-8 flex flex-col items-center text-center">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 mb-4">
+          <svg class="h-6 w-6 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5C2.57 17.333 3.532 19 5.072 19z" />
+          </svg>
+        </div>
+        <h3 class="text-base font-semibold text-text-primary">Erro ao processar</h3>
+        <p class="mt-2 text-sm text-text-secondary max-w-sm">{{ errorMessage }}</p>
+        <div class="mt-6">
+          <app-button variant="secondary" (onClick)="loadEntries()">Tentar novamente</app-button>
+        </div>
+      </div>
+    </app-card>
+  }
+
+  <!-- CONTENT -->
+  @else {
+
+    <!-- EMPTY STATE -->
+    @if (entries.length === 0) {
+      <app-empty-state
+        title="Nenhum lançamento encontrado"
+        description="Neste mês ainda não existem lançamentos. Clique em 'Gerar Lançamentos' para processar suas fontes automáticas.">
+        <app-button (onClick)="generateMonth()" [loading]="isGenerating()">Gerar Lançamentos do Mês</app-button>
+      </app-empty-state>
+    }
+
+    <!-- TABLE -->
+    @else {
+      <app-table>
+        <tr thead>
+          <th scope="col" class="px-6 py-3 font-medium">Descrição</th>
+          <th scope="col" class="px-6 py-3 font-medium">Tipo</th>
+          <th scope="col" class="px-6 py-3 font-medium">Valor Esperado</th>
+          <th scope="col" class="px-6 py-3 font-medium">Situação</th>
+          <th scope="col" class="px-6 py-3 font-medium text-right">Ações</th>
+        </tr>
+        @for (entry of entries; track entry.id) {
+          <tr tbody class="hover:bg-slate-50/50 transition-colors" [ngClass]="{'opacity-60': entry.status === 'Cancelled'}">
+            
+            <!-- Descrição -->
+            <td class="whitespace-nowrap px-6 py-4">
+              <div class="flex flex-col">
+                <span class="font-medium text-text-primary">{{ entry.description }}</span>
+                @if (entry.installmentPlanId && entry.currentInstallment) {
+                  <span class="text-xs text-text-secondary mt-0.5">Parcela {{ entry.currentInstallment }}</span>
+                }
+              </div>
+            </td>
+
+            <!-- Tipo Badge Inferido -->
+            <td class="whitespace-nowrap px-6 py-4">
+              @if (getEntryType(entry); as type) {
+                <app-badge [variant]="type.badge">{{ type.label }}</app-badge>
+              }
+            </td>
+
+            <!-- Valor -->
+            <td class="whitespace-nowrap px-6 py-4 font-medium" 
+                [ngClass]="{
+                  'text-green-600': getEntryType(entry).label === 'Receita',
+                  'text-slate-700': getEntryType(entry).label !== 'Receita'
+                }">
+                {{ getEntryType(entry).label === 'Receita' ? '+ ' : '- ' }} 
+                {{ formatCurrency(entry.amountExpected) }}
+            </td>
+
+            <!-- Status -->
+            <td class="whitespace-nowrap px-6 py-4">
+               @if (getEntryStatus(entry.status); as sts) {
+                  <app-badge [variant]="sts.badge">{{ sts.label }}</app-badge>
+               }
+            </td>
+
+            <!-- Ações -->
+            <td class="whitespace-nowrap px-6 py-4 text-right">
+              @if (canPay(entry)) {
+                <app-button variant="ghost" size="sm" (onClick)="openPaymentModal(entry)">
+                  Pagar
+                </app-button>
+              } @else {
+                <span class="text-sm text-slate-400 font-medium px-3">—</span>
+              }
+            </td>
+          </tr>
+        }
+      </app-table>
+    }
+  }
+</div>
+
+<!-- PAYMENT MODAL -->
+<app-modal [isOpen]="isPaymentModalOpen" title="Registrar Pagamento" (close)="closePaymentModal()">
+  <form [formGroup]="paymentForm" (ngSubmit)="submitPayment()" class="space-y-6">
+
+    @if (paymentError) {
+      <div class="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+        <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        {{ paymentError }}
+      </div>
+    }
+
+    <!-- Conhecimento -->
+    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-2">
+      <p class="text-sm text-slate-500 font-medium">Lançamento</p>
+      <p class="text-base text-slate-900 font-semibold mt-1">{{ selectedEntryForPayment?.description }}</p>
+    </div>
+
+    <!-- Valor -->
+    <app-input
+      formControlName="amount"
+      label="Valor do Pagamento (R$)"
+      type="number"
+      placeholder="0,00"
+      [error]="amountError">
+    </app-input>
+
+    <!-- Método -->
+    <app-select
+      formControlName="type"
+      label="Método de Pagamento"
+      [options]="paymentMethodOptions">
+    </app-select>
+
+    <!-- Data -->
+    <app-input
+      formControlName="date"
+      label="Data do Pagamento"
+      type="date">
+    </app-input>
+
+  </form>
+
+  <div modal-actions class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+    <app-button variant="secondary" (onClick)="closePaymentModal()">Cancelar</app-button>
+    <app-button [loading]="isPaying" (onClick)="submitPayment()">
+      Confirmar Pagamento
+    </app-button>
+  </div>
+</app-modal>
